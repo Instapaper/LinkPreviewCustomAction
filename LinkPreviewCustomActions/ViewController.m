@@ -7,21 +7,38 @@
 //
 
 #import "ViewController.h"
+@import WebKit;
 
 @interface ViewController ()
+
+@property (nonatomic, strong) WKWebView *webView;
 
 @end
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+- (void)loadView {
+    [super loadView];
+    self.webView.frame = self.view.bounds;
+    [self.view addSubview:self.webView];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    NSURL *url = [NSURL URLWithString:@"http://blog.instapaper.com/post/129227268641"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [self.webView loadRequest:request];
+    [self.view addSubview:self.webView];
+}
+
+- (WKWebView *)webView {
+    if (!_webView) {
+        _webView = [[WKWebView alloc] init];
+        _webView.allowsLinkPreview = YES;
+    }
+    
+    return _webView;
 }
 
 @end
